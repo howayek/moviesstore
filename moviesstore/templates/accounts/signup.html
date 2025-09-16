@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up · GT Movies Store{% endblock %}
+{% block content %}
+  <h1>Sign Up</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ template_data.form.non_field_errors }}
+    {% for field in template_data.form %}
+      <div class="mb-3">
+        <label class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<div class="text-danger small">{{ field.errors }}</div>{% endif %}
+      </div>
+    {% endfor %}
+    <button class="btn btn-primary">Create account</button>
+  </form>
+{% endblock %}

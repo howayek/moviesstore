@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load cart_extras %}
+{% block title %}Cart · GT Movies Store{% endblock %}
+{% block content %}
+  <h1>Cart</h1>
+  {% if template_data.movies_in_cart %}
+    <table class="table table-striped align-middle">
+      <thead><tr><th>Movie</th><th style="width:120px;">Quantity</th><th style="width:140px;">Price</th></tr></thead>
+      <tbody>
+        {% for m in template_data.movies_in_cart %}
+          <tr>
+            <td><a class="link-dark" href="{% url 'movies.show' m.id %}">{{ m.title }}</a></td>
+            <td>{{ template_data.cart|get_item:m.id|stringformat:"s" }}</td>
+            <td>${{ m.price }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr><th colspan="2" class="text-end">Total</th><th>${{ template_data.cart_total }}</th></tr>
+      </tfoot>
+    </table>
+    <div class="d-flex gap-2">
+      <form method="post" action="{% url 'cart.purchase' %}" class="d-inline">{% csrf_token %}<button class="btn btn-success">Purchase</button></form>
+      <form method="post" action="{% url 'cart.clear' %}" class="d-inline ms-2">{% csrf_token %}<button class="btn btn-outline-danger">Remove all movies from Cart</button></form>
+    </div>
+  {% else %}
+    <p>Your cart is empty.</p>
+  {% endif %}
+{% endblock %}

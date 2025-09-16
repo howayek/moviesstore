@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}My Orders · GT Movies Store{% endblock %}
+{% block content %}
+  <h1>My Orders</h1>
+  {% for o in template_data.orders %}
+  <div class="card mb-3 bg-dark text-white border-secondary">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div><strong>Order #{{ o.id }}</strong></div>
+          <div><strong>Total:</strong> ${{ o.total }}</div>
+        </div>
+        <div class="text-secondary small">{{ o.created_at|date:"Y-m-d H:i" }}</div>
+        <hr>
+        <ul class="mb-0">
+          {% for it in o.items.all %}
+            <li>{{ it.movie.title }} × {{ it.quantity }} @ ${{ it.price }}</li>
+          {% empty %}
+            <li>No items?</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% empty %}
+    <p>No orders yet.</p>
+  {% endfor %}
+{% endblock %}

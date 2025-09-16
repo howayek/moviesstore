@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Movies · GT Movies Store{% endblock %}
+{% block content %}
+  <h1 class="mb-3">Movies</h1>
+  <form class="row g-2 mb-4" method="get">
+    <div class="col-auto">
+      <input class="form-control" type="text" name="q" placeholder="Search by title" value="{{ template_data.q }}">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+  </form>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for m in template_data.movies %}
+    <div class="col">
+      <div class="card h-100 bg-dark text-white border-secondary">
+        {% if m.image_url %}<img src="{{ m.image_url }}" class="card-img-top" alt="{{ m.title }}">{% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ m.title }}</h5>
+          <p class="card-text text-secondary">${{ m.price }}</p>
+          <a class="btn btn-outline-light btn-sm" href="{% url 'movies.show' m.id %}">View</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+      <p>No movies found.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+/* Global dark theme baseline */
+body { background: #0b0b0b; color: #eaeaea; }
+
+/* Make card content readable on our dark cards */
+.card { background: #151515; border-color: #222; color: #eaeaea; }
+.card .card-title,
+.card .card-text { color: #eaeaea; }
+
+/* Lighten "muted" text so it’s legible on dark backgrounds */
+.text-secondary,
+.text-muted { color: #b8c0cc !important; }
+
+/* Tables (Cart, etc.) */
+.table { color: #eaeaea; }
+
+/* Minor polish */
+.navbar-dark .navbar-brand { font-weight: 700; }
+a { text-decoration: none; }
