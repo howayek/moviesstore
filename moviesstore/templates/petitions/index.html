@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4 text-white">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Petitions</h1>
+    {% if request.user.is_authenticated %}
+      <a class="btn btn-primary" href="{% url 'petitions.create' %}">New Petition</a>
+    {% else %}
+      <a class="btn btn-outline-light" href="{% url 'accounts.login' %}">Login to create</a>
+    {% endif %}
+  </div>
+
+  {% for p in petitions %}
+    <div class="card bg-dark text-white border-secondary mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <div class="me-3">
+            <h5 class="card-title mb-1">{{ p.title }}</h5>
+            <div class="text-white-50 small">by @{{ p.created_by.username }} • {{ p.created_at|date:"Y-m-d H:i" }}</div>
+            {% if p.description %}<p class="card-text mt-2 mb-0">{{ p.description }}</p>{% endif %}
+          </div>
+          <div class="text-end">
+            <div class="fs-5 mb-2"><strong>Yes:</strong> {{ p.yes_count }}</div>
+            {% if request.user.is_authenticated %}
+              <form method="post" action="{% url 'petitions.vote_yes' id=p.id %}">
+                {% csrf_token %}
+                <button class="btn btn-success btn-sm" type="submit">Vote Yes</button>
+              </form>
+            {% else %}
+              <a class="btn btn-outline-light btn-sm" href="{% url 'accounts.login' %}">Login to vote</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-white-50">No petitions yet. Be the first to create one.</p>
+  {% endfor %}
+</div>
+{% endblock %}
+
+
